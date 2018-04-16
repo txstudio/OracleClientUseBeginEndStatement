@@ -1,0 +1,56 @@
+/* create event log table */
+CREATE TABLE SYSTEM.EVENT_LOGS
+(
+	EVENT_NO		INT,
+	
+	REQUEST_TIME	DATE DEFAULT SYSDATE,
+	RESPONSE_TIME	DATE,
+	
+	REQUEST_XML		NCLOB,
+	RESPONSE_XML	NCLOB,
+	
+	STATUS_CODE		NUMERIC(3),
+	ERROR_MESSAGE	NVARCHAR2(150),
+	
+	CONSTRAINT PK_EVENT_LOGS
+		PRIMARY KEY (EVENT_NO)
+);
+
+/* create sequence for system.event_logs event_no column */
+CREATE SEQUENCE SYSTEM.EVENT_LOGS_SEQ
+	START WITH 1
+	CACHE 20;
+    
+/* ******************** */
+/* sample pl/sql script */
+/* ******************** */
+
+/* 
+SELECT * FROM SYSTEM.EVENT_LOGS;
+*/
+
+/* insert logs */
+/*
+BEGIN
+SELECT SYSTEM.EVENT_LOGS_SEQ.NEXTVAL INTO :EVENT_NO FROM DUAL;
+
+INSERT INTO SYSTEM.EVENT_LOGS (
+    EVENT_NO
+    ,REQUEST_XML
+) VALUES (
+    :EVENT_NO
+    ,:REQUEST_XML
+);
+
+END;
+*/
+
+/* update logs by event_no */
+/*
+UPDATE SYSTEM.EVENT_LOGS SET
+    RESPONSE_TIME = SYSDATE
+    ,RESPONSE_XML = :RESPONSE_XML
+    ,STATUS_CODE = :STATUS_CODE
+    ,ERROR_MESSAGE = :ERROR_MESSAGE
+WHERE EVENT_NO = :EVENT_NO;
+*/
